@@ -1,3 +1,18 @@
+function onFormSubmit(e) {
+  Logger.log(e);
+  var scriptProperty = PropertiesService.getScriptProperties();
+
+  const boardId = scriptProperty.getProperty("BOARD_ID");  
+  const listId　= scriptProperty.getProperty("LIST_ID");
+  
+  var cardName = "イベント参加者補助申請";
+  var mail = e.namedValues["メールアドレス"].toString();
+  
+  var description = "メールアドレス：" + mail;
+  
+  createCard(boardId, listId, cardName, description);
+}
+
 function getBoard() {
   var scriptProperty = PropertiesService.getScriptProperties();
   
@@ -11,22 +26,22 @@ function getBoard() {
 }
 
 
-function createCard() {
+function createCard(boardId, listId, cardName, description) {
   var scriptProperty = PropertiesService.getScriptProperties();
   
   const trelloKey = scriptProperty.getProperty("TRELLO_KEY");
   const trelloToken = scriptProperty.getProperty("TRELLO_TOKEN");
-  const boardId = scriptProperty.getProperty("BOARD_ID");  
-  const LIST_ID　= scriptProperty.getProperty("LIST_ID");
  
   var URL = 'https://api.trello.com/1/cards/';
  
   var payload =
       {'key':trelloKey,
        'token':trelloToken,
-       'idList' : LIST_ID,
-       'name': 'test',
-       'desc': 'GASにより自動的に作成されました。'};
+       'idList' : listId,
+       'name': cardName,
+       'desc': description};
+  
+  Logger.log(payload);
   
   var option =
       {'method':'POST',

@@ -34,11 +34,15 @@ function createCard(boardId, listId, cardName, description) {
  
   var URL = 'https://api.trello.com/1/cards/';
  
+  var dueDate = new Date();
+  dueDate.setDate(dueDate.getDate() + 7);
+  
   var payload =
       {'key':trelloKey,
        'token':trelloToken,
        'idList' : listId,
        'name': cardName,
+       'due': dueDate.toString(),
        'desc': description};
   
   Logger.log(payload);
